@@ -32,7 +32,7 @@
                     <input type="checkbox" id="remember">
                     <label for="remember" style="font-size: 14px; font-weight: 500;">Remember for 30 days</label>
                 </div>
-                <a href="#" style="font-size: 14px; font-weight: 600; color: #6941C6;">Forgot password</a>
+                <a href="{{ route('password.request') }}" style="font-size: 14px; font-weight: 600; color: #6941C6;">Forgot password</a>
             </div>
 
             <button type="submit" class="auth-btn">Sign in</button>

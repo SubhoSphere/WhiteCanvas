@@ -83,4 +83,4 @@ WhiteCanvas is a premium, industrial-grade blog system built with **Laravel 12**
 
 ---
 
-Developed with ❤️ by **Antigravity AI** for the WhiteCanvas Team.
+Developed with ❤️ by **SubhoSphere** for the Jobyaari Team.

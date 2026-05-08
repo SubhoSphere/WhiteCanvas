@@ -8,6 +8,14 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->name('password.request');
+
+Route::get('/reset-password', function () {
+    return view('auth.reset-password');
+})->name('password.reset');
+
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
@@ -33,3 +41,11 @@ Route::get('/faq', function () {
 Route::get('/contact-us', function () {
     return view('contact');
 })->name('contact');
+
+Route::get('/privacy-policy', function () {
+    return view('legal.privacy');
+})->name('privacy');
+
+Route::get('/terms-of-service', function () {
+    return view('legal.terms');
+})->name('terms');
