@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('content');
+            $table->string('file_path')->nullable();
             $table->foreignId('author_id')->constrained('users')->onDelete('cascade');
             $table->boolean('is_published')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
