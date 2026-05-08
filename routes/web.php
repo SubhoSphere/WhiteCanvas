@@ -21,3 +21,15 @@ Route::get('/about-us', function () {
 })->name('about');
 
 Route::get('/dashboard', [BlogController::class, 'dashboard'])->name('dashboard');
+
+Route::get('/user/{username}', [BlogController::class, 'myBlog'])->name('blogs.my');
+
+Route::get('/dashboard/my-posts', [BlogController::class, 'myPosts'])->name('dashboard.posts');
+
+Route::get('/faq', function () {
+    return view('faq');
+})->name('faq');
+
+Route::get('/contact-us', function () {
+    return view('contact');
+})->name('contact');

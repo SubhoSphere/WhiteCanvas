@@ -65,7 +65,7 @@
                         <h3>My blog posts</h3>
                         <p>Manage your published and draft blog posts.</p>
                     </div>
-                    <button class="btn-signup"><i class="fas fa-plus"></i> Create new post</button>
+                    <button class="btn-signup" onclick="openModal()"><i class="fas fa-plus"></i> Create new post</button>
                 </div>
 
                 <table class="dash-table">
@@ -99,4 +99,63 @@
         </div>
     </div>
 </div>
+
+<!-- Create Post Modal -->
+<div class="modal-overlay" id="createPostModal">
+    <div class="modal-content">
+        <i class="fas fa-times modal-close" onclick="closeModal()"></i>
+        <div class="auth-header" style="text-align: left; margin-bottom: 24px;">
+            <h2>Create new blog post</h2>
+            <p>Draft your next masterpiece and share it with the world.</p>
+        </div>
+
+        <form action="#" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="form-label">Post Title</label>
+                <input type="text" class="form-input" placeholder="e.g. 10 Tips for Product Design" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Content</label>
+                <textarea class="form-input" rows="6" placeholder="Write your content here..." style="resize: vertical;"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Featured Image</label>
+                <input type="file" class="form-input">
+                <p style="font-size: 12px; color: var(--gray-600); margin-top: 6px;">Recommended size: 1200x630px.</p>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 12px; margin-top: 24px;">
+                <input type="checkbox" id="publish_now">
+                <label for="publish_now" style="font-size: 14px; font-weight: 500;">Publish immediately</label>
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-top: 32px;">
+                <button type="button" class="btn-outline" onclick="closeModal()" style="flex: 1; border: 1px solid var(--gray-300); color: var(--gray-700);">Cancel</button>
+                <button type="submit" class="btn-signup" style="flex: 2;">Create post</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openModal() {
+        document.getElementById('createPostModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+
+    function closeModal() {
+        document.getElementById('createPostModal').style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restore scrolling
+    }
+
+    // Close on click outside
+    window.onclick = function(event) {
+        let modal = document.getElementById('createPostModal');
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+</script>
 @endsection

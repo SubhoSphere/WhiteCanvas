@@ -28,6 +28,18 @@ class BlogController extends Controller
         return view('dashboard', compact('posts'));
     }
 
+    public function myBlog($username)
+    {
+        $posts = $this->getMockPosts();
+        return view('blogs.my-blog', compact('posts', 'username'));
+    }
+
+    public function myPosts()
+    {
+        $posts = $this->getMockPosts();
+        return view('dashboard.my-posts', compact('posts'));
+    }
+
     private function getMockPosts()
     {
         return [
