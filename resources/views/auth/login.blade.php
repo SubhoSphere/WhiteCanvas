@@ -17,19 +17,23 @@
             <p>Please enter your details.</p>
         </div>
 
-        <form action="#" method="POST">
+        <form action="{{ url('/login') }}" method="POST">
+            @csrf
             <div class="form-group">
                 <label class="form-label">Email</label>
-                <input type="email" class="form-input" placeholder="Enter your email" required>
+                <input type="email" name="email" class="form-input" placeholder="Enter your email" required value="{{ old('email') }}">
+                @error('email')
+                    <p style="color: #D92D20; font-size: 12px; margin-top: 4px;">{{ $message }}</p>
+                @enderror
             </div>
             <div class="form-group">
                 <label class="form-label">Password</label>
-                <input type="password" class="form-input" placeholder="••••••••" required>
+                <input type="password" name="password" class="form-input" placeholder="••••••••" required>
             </div>
             
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                 <div style="display: flex; align-items: center; gap: 8px;">
-                    <input type="checkbox" id="remember">
+                    <input type="checkbox" name="remember" id="remember">
                     <label for="remember" style="font-size: 14px; font-weight: 500;">Remember for 30 days</label>
                 </div>
                 <a href="{{ route('password.request') }}" style="font-size: 14px; font-weight: 600; color: #6941C6;">Forgot password</a>

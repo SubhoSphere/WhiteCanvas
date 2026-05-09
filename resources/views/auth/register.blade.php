@@ -17,18 +17,22 @@
             <p>Start your 30-day free trial.</p>
         </div>
 
-        <form action="#" method="POST">
+        <form action="{{ url('/register') }}" method="POST">
+            @csrf
             <div class="form-group">
                 <label class="form-label">Name*</label>
-                <input type="text" class="form-input" placeholder="Enter your name" required>
+                <input type="text" name="name" class="form-input" placeholder="Enter your name" required value="{{ old('name') }}">
             </div>
             <div class="form-group">
                 <label class="form-label">Email*</label>
-                <input type="email" class="form-input" placeholder="Enter your email" required>
+                <input type="email" name="email" class="form-input" placeholder="Enter your email" required value="{{ old('email') }}">
+                @error('email')
+                    <p style="color: #D92D20; font-size: 12px; margin-top: 4px;">{{ $message }}</p>
+                @enderror
             </div>
             <div class="form-group">
                 <label class="form-label">Password*</label>
-                <input type="password" class="form-input" placeholder="Create a password" required>
+                <input type="password" name="password" class="form-input" placeholder="Create a password" required>
                 <p style="font-size: 12px; color: var(--gray-600); margin-top: 6px;">Must be at least 8 characters.</p>
             </div>
 
