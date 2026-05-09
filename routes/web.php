@@ -31,6 +31,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('/blogs/filter', [BlogController::class, 'filter'])->name('blogs.filter');
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
 
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blogs.show');
@@ -67,7 +68,15 @@ use App\Http\Controllers\AdminController;
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
-    Route::get('/blogs', [AdminController::class, 'blogs'])->name('admin.blogs');
     Route::post('/users/{id}/toggle', [AdminController::class, 'toggleUserStatus'])->name('admin.users.toggle');
-    Route::delete('/blogs/{id}', [AdminController::class, 'deleteBlog'])->name('admin.blogs.delete');
+    
+    // Admin Blog CRUD
+    Route::resource('blogs', AdminController::class)->names([
+        'index' => 'admin.blogs',
+        'create' => 'admin.blogs.create',
+        'store' => 'admin.blogs.store',
+        'edit' => 'admin.blogs.edit',
+        'update' => 'admin.blogs.update',
+        'destroy' => 'admin.blogs.delete',
+    ]);
 });

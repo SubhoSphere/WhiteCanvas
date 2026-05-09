@@ -1,18 +1,48 @@
 @extends('layouts.app')
 
-@section('title', 'Blog Detail - WhiteCanvas')
+@section('title', $post->title . ' - WhiteCanvas')
+@section('meta_description', $post->short_description ?? Str::limit(strip_tags($post->content), 160))
+@section('meta_image', $post->image_url)
+
+@section('meta')
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="{{ $post->created_at->toIso8601String() }}">
+    <meta property="article:author" content="{{ $post->author->name }}">
+    <meta property="article:section" content="{{ $post->category }}">
+@endsection
 
 @section('content')
 <div class="container">
     <div class="detail-layout">
         <!-- Main Post Area -->
-        <div class="main-post-card">
-            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop" alt="Main Post" class="featured-img">
-            <div class="blur-overlay">
-                <span class="featured-tag" style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 12px;">Category</span>
-                <h2 style="margin-top: 16px; font-size: 28px;">Enhancing Team Collaboration with SaaS Products: A Game-Changer for Modern Workflows</h2>
-                <div class="latest-post-meta" style="color: rgba(255,255,255,0.8); margin-top: 12px;">
-                    Aug 10 • 10 min read
+        <div class="main-post-card" style="height: auto; overflow: visible;">
+            <div style="position: relative; border-radius: var(--radius-xl); overflow: hidden; height: 480px;">
+                <img src="{{ $post->image_url }}" alt="{{ $post->title }}" class="featured-img">
+            </div>
+            
+            <div class="post-header" style="padding: 40px 40px 0;">
+                <span class="card-category" style="margin-bottom: 16px; display: block;">{{ $post->category }}</span>
+                <h1 style="font-size: 48px; margin-bottom: 24px; color: var(--gray-900);">{{ $post->title }}</h1>
+                <div class="latest-post-meta" style="color: var(--gray-600); margin-bottom: 32px; font-size: 16px;">
+                    {{ $post->created_at->format('M d, Y') }} • {{ ceil(strlen(strip_tags($post->content)) / 1000) }} min read
+                </div>
+            </div>
+            
+            <div class="post-body" style="padding: 0 40px 40px; line-height: 1.8; font-size: 18px; color: var(--gray-700);">
+                @if($post->short_description)
+                    <p style="font-weight: 600; font-size: 20px; color: var(--gray-900); margin-bottom: 32px; border-left: 4px solid var(--gray-900); padding-left: 20px;">
+                        {{ $post->short_description }}
+                    </p>
+                @endif
+                
+                {!! nl2br(e($post->content)) !!}
+            </div>
+
+            <div class="post-footer" style="padding: 40px; border-top: 1px solid var(--gray-200); display: flex; align-items: center; gap: 20px;">
+                <img src="https://i.pravatar.cc/150?u={{ $post->author->username }}" alt="{{ $post->author->name }}" style="width: 64px; height: 64px; border-radius: 50%;">
+                <div>
+                    <h4 style="margin: 0; font-size: 18px;">Written by {{ $post->author->name }}</h4>
+                    <p style="margin: 4px 0 0; font-size: 14px; color: var(--gray-600);">Published on {{ $post->created_at->format('F d, Y') }} in {{ $post->category }}</p>
                 </div>
             </div>
         </div>
@@ -21,15 +51,17 @@
         <aside>
             <h3 style="font-size: 20px; margin-bottom: 24px;">Latest post</h3>
             <div class="latest-posts-widget">
-                @for($i=1; $i<=4; $i++)
-                <div class="latest-post-item">
-                    <img src="https://i.pravatar.cc/150?u=post{{$i}}" alt="Post" class="latest-post-thumb">
-                    <div class="latest-post-info">
-                        <h5>Creating an Intuitive User Interface (UI) for Your SaaS Product</h5>
-                        <div class="latest-post-meta">Aug 10 • 10 min read</div>
-                    </div>
+                @foreach($latestPosts as $lPost)
+                <div class="latest-post-item" style="margin-bottom: 20px;">
+                    <a href="{{ route('blogs.show', $lPost->slug) }}" style="text-decoration: none; display: flex; gap: 16px; color: inherit;">
+                        <img src="{{ $lPost->image_url }}" alt="{{ $lPost->title }}" class="latest-post-thumb" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                        <div class="latest-post-info">
+                            <h5 style="margin: 0; font-size: 14px; line-height: 1.4;">{{ $lPost->title }}</h5>
+                            <div class="latest-post-meta" style="font-size: 12px; margin-top: 4px;">{{ $lPost->created_at->format('M d') }}</div>
+                        </div>
+                    </a>
                 </div>
-                @endfor
+                @endforeach
             </div>
         </aside>
     </div>
@@ -45,19 +77,21 @@
         </div>
         
         <div class="founders-grid">
-            @for($i=1; $i<=3; $i++)
+            @foreach($latestPosts->take(3) as $fPost)
             <article class="founder-card">
-                <div style="padding: 16px;">
-                    <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop" alt="Founder post" class="founder-card-img">
-                    <div class="founder-card-content">
-                        <span class="card-category" style="margin-bottom: 12px; display: block;">Category</span>
-                        <h3>Our people make the difference</h3>
-                        <p>We're an extension of your customer service team, and all of our resources are free. Chat to our friendly team 24/7 when you need help.</p>
-                        <div class="latest-post-meta">Aug 10 • 10 min read</div>
+                <a href="{{ route('blogs.show', $fPost->slug) }}" style="text-decoration: none; color: inherit;">
+                    <div style="padding: 16px;">
+                        <img src="{{ $fPost->image_url }}" alt="{{ $fPost->title }}" class="founder-card-img">
+                        <div class="founder-card-content">
+                            <span class="card-category" style="margin-bottom: 12px; display: block;">{{ $fPost->category }}</span>
+                            <h3>{{ $fPost->title }}</h3>
+                            <p>{{ $fPost->short_description ?? Str::limit(strip_tags($fPost->content), 100) }}</p>
+                            <div class="latest-post-meta">{{ $fPost->created_at->format('M d') }}</div>
+                        </div>
                     </div>
-                </div>
+                </a>
             </article>
-            @endfor
+            @endforeach
         </div>
     </section>
 </div>

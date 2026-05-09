@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'All Blogs - WhiteCanvas')
+@section('meta_description', 'Browse our complete collection of blog posts, from exam updates to design and engineering insights.')
 
 @section('content')
 <div class="container">
@@ -9,31 +10,8 @@
         <div class="blog-list">
             <h2 class="section-title" style="margin-bottom: 32px;">All blog posts</h2>
             
-            @foreach($posts as $post)
-            <article class="blog-list-item">
-                <img src="{{ $post['image'] }}" alt="{{ $post['title'] }}" class="item-img">
-                <div class="card-content">
-                    <span class="card-category">{{ $post['category'] }}</span>
-                    <h3 class="card-title">{{ $post['title'] }}</h3>
-                    <p class="card-desc">{{ Str::limit($post['description'], 120) }}</p>
-                    <div class="card-footer">
-                        <img src="{{ $post['author_avatar'] }}" alt="{{ $post['author_name'] }}" class="author-avatar">
-                        <div class="author-info">
-                            <span class="author-name">{{ $post['author_name'] }}</span>
-                            <span class="post-date">{{ $post['date'] }}</span>
-                        </div>
-                    </div>
-                </div>
-            </article>
-            @endforeach
-
-            <!-- Pagination Placeholder -->
-            <div style="display: flex; gap: 8px; margin-top: 32px;">
-                <button class="tag" style="background: var(--gray-900); color: white;">1</button>
-                <button class="tag">2</button>
-                <button class="tag">3</button>
-                <span style="align-self: center;">...</span>
-                <button class="tag">10</button>
+            <div id="blog-posts-container" class="blog-list">
+                @include('blogs.partials._blog_list')
             </div>
         </div>
 
@@ -50,26 +28,23 @@
                 <h4>Categories</h4>
                 <ul class="filter-list">
                     <li class="filter-item">
-                        <a href="#">
-                            All Categories <span class="filter-count">24</span>
+                        <a href="#" class="category-filter active" data-category="">
+                            All Categories
                         </a>
                     </li>
+                    @foreach($categories as $category)
                     <li class="filter-item">
-                        <a href="#">
-                            Design <span class="filter-count">12</span>
+                        <a href="#" class="category-filter" data-category="{{ $category }}">
+                            {{ $category }}
                         </a>
                     </li>
-                    <li class="filter-item">
-                        <a href="#">
-                            Software Engineering <span class="filter-count">8</span>
-                        </a>
-                    </li>
-                    <li class="filter-item">
-                        <a href="#">
-                            Product <span class="filter-count">4</span>
-                        </a>
-                    </li>
+                    @endforeach
                 </ul>
+            </div>
+
+            <div class="sidebar-widget">
+                <h4>Filter by Date</h4>
+                <input type="date" id="date-filter" class="form-input" style="margin-top: 12px;">
             </div>
 
             <div class="sidebar-widget">
@@ -93,4 +68,56 @@
         </aside>
     </div>
 </div>
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    let currentCategory = '';
+    let currentDate = '';
+
+    function fetchPosts(page = 1) {
+        $.ajax({
+            url: "{{ route('blogs.filter') }}",
+            data: {
+                category: currentCategory,
+                date: currentDate,
+                page: page
+            },
+            beforeSend: function() {
+                $('#blog-posts-container').css('opacity', '0.5');
+            },
+            success: function(data) {
+                $('#blog-posts-container').html(data);
+                $('#blog-posts-container').css('opacity', '1');
+            }
+        });
+    }
+
+    $('.category-filter').on('click', function(e) {
+        e.preventDefault();
+        $('.category-filter').removeClass('active');
+        $(this).addClass('active');
+        currentCategory = $(this).data('category');
+        fetchPosts();
+    });
+
+    $('#date-filter').on('change', function() {
+        currentDate = $(this).val();
+        fetchPosts();
+    });
+
+    $(document).on('click', '.pagination a', function(e) {
+        e.preventDefault();
+        let page = $(this).attr('href').split('page=')[1];
+        fetchPosts(page);
+    });
+});
+</script>
+<style>
+    .category-filter.active {
+        font-weight: bold;
+        color: var(--primary-600);
+    }
+</style>
+@endpush
 @endsection

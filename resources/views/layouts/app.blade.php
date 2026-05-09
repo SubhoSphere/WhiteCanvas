@@ -3,7 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'WhiteCanvas - Modern Blog')</title>
+    <title>@yield('title', 'WhiteCanvas - Industrial Blog Platform')</title>
+    <meta name="description" content="@yield('meta_description', 'WhiteCanvas is a premium blog platform for high-quality technical and corporate content.')">
+    <meta name="keywords" content="blog, laravel, technology, news, whitecanvas">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', 'WhiteCanvas - Industrial Blog Platform')">
+    <meta property="og:description" content="@yield('meta_description', 'WhiteCanvas is a premium blog platform for high-quality technical and corporate content.')">
+    <meta property="og:image" content="@yield('meta_image', asset('img/og-default.png'))">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="@yield('title', 'WhiteCanvas - Industrial Blog Platform')">
+    <meta property="twitter:description" content="@yield('meta_description', 'WhiteCanvas is a premium blog platform for high-quality technical and corporate content.')">
+    <meta property="twitter:image" content="@yield('meta_image', asset('img/og-default.png'))">
+
+    @yield('meta')
+
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -111,5 +130,7 @@
             </div>
         </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    @stack('scripts')
 </body>
 </html>

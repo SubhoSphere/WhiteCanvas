@@ -34,6 +34,8 @@ class Blog extends Model
     protected $fillable = [
         'title',
         'slug',
+        'category',
+        'short_description',
         'content',
         'file_path',
         'author_id',
@@ -73,5 +75,19 @@ class Blog extends Model
     public function scopeDraft(Builder $query): Builder
     {
         return $query->where('is_published', false);
+    }
+
+    /**
+     * Get the URL for the blog post image.
+     */
+    public function getImageUrlAttribute(): string
+    {
+        if ($this->file_path && str_starts_with($this->file_path, 'http')) {
+            return $this->file_path;
+        }
+
+        return $this->file_path 
+            ? asset('storage/' . $this->file_path) 
+            : 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop';
     }
 }

@@ -34,7 +34,7 @@ class User extends Authenticatable
     const ROLE_ADMIN = 'ADMIN';
 
     protected $fillable = [
-        'name', 'email', 'password', 'role',
+        'name', 'email', 'password', 'role', 'username',
     ];
 
     public function isAdmin(): bool
