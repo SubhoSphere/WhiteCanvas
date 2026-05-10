@@ -69,61 +69,57 @@
         </div>
     </section>
 
-    <footer class="footer">
+    <footer class="new-footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col" style="grid-column: span 2;">
-                    <div class="logo" style="margin-bottom: 24px; font-size: 20px;">
-                        <i class="fas fa-paint-brush"></i> WhiteCanvas
+            <div class="footer-top">
+                <div class="footer-cta">
+                    <h2>Have a Cool Idea?<br>Let's Collaborate<span class="dot">.</span></h2>
+                    <a href="{{ route('contact') }}" class="btn-contact">
+                        Get In Touch <span class="plus">+</span>
+                    </a>
+                </div>
+                <div class="footer-nav-grid" style="grid-column: span 2;">
+                    <div class="footer-nav-col">
+                        <h4>Location</h4>
+                        <p>1330 Huffman Rd, Anchorage,<br>Alask, United States</p>
                     </div>
-                    <p style="color: var(--gray-500); line-height: 1.6; max-width: 320px;">
-                        The premium blogging platform for creative professionals and industry leaders. Share your stories, build your brand, and inspire the world.
-                    </p>
-                </div>
-                <div class="footer-col">
-                    <h4>Product</h4>
-                    <ul>
-                        <li><a href="{{ route('blogs.index') }}">Overview</a></li>
-                        <li><a href="#">Features</a></li>
-                        <li><a href="#">Solutions</a></li>
-                        <li><a href="#">Tutorials</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="{{ route('about') }}">About us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">News</a></li>
-                        <li><a href="{{ route('contact') }}">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="{{ route('blogs.index') }}">Blog</a></li>
-                        <li><a href="#">Newsletter</a></li>
-                        <li><a href="{{ route('faq') }}">Help centre</a></li>
-                        <li><a href="#">Support</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Social</h4>
-                    <ul>
-                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
-                        <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
-                    </ul>
+                    <div class="footer-nav-col">
+                        <h4>Contact</h4>
+                        <p>+661 2058 6987 20</p>
+                        <a href="mailto:Hello@WhiteCanvas.com">Hello@WhiteCanvas.com</a>
+                    </div>
+                    <div class="footer-nav-col" style="margin-top: 40px;">
+                        <h4>Social</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <a href="#">Instagram</a>
+                            <a href="#">Twitter/X</a>
+                            <a href="#">YouTube</a>
+                            <a href="#">Pinterest</a>
+                        </div>
+                    </div>
+                    <div class="footer-nav-col" style="margin-top: 40px;">
+                        <h4>Helpful Links</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <a href="{{ route('privacy') }}">Privacy Policy</a>
+                            <a href="{{ route('about') }}">About</a>
+                            <a href="#">Services</a>
+                            <a href="{{ route('blogs.index') }}">Blog</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; {{ date('Y') }} WhiteCanvas. Built with passion for the creative community.</p>
-                <div class="footer-legal">
-                    <a href="{{ route('privacy') }}">Privacy</a>
-                    <a href="{{ route('terms') }}">Terms</a>
-                    <a href="#">Cookies</a>
+            <div class="footer-mid">
+                <p>&copy; WhiteCanvas {{ date('Y') }}</p>
+                <p><span style="color: #E31B23;">#</span> Made with Love on WhiteCanvas</p>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    Created by 
+                    <img src="https://i.pravatar.cc/100?u=admin" style="width: 24px; height: 24px; border-radius: 50%;">
+                    <span style="color: #fff; font-weight: 600;">Subhash</span>
                 </div>
             </div>
+        </div>
+        <div class="footer-huge-text">
+            <div class="huge-label">WHITE CANVAS</div>
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
