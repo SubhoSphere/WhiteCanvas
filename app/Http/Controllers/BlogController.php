@@ -60,7 +60,7 @@ class BlogController extends Controller
     public function myPosts()
     {
         $posts = Blog::where('author_id', auth()->id())->latest()->get();
-        return view('dashboard.my-posts', compact('posts'));
+        return view('dashboard.my-blogs', compact('posts'));
     }
 
     /**

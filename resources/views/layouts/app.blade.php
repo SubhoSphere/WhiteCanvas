@@ -39,8 +39,17 @@
                 </div>
             </div>
             <div class="nav-right">
-                <a href="{{ route('login') }}" class="btn-login">Log in</a>
-                <a href="{{ route('register') }}" class="btn-signup">Sign up</a>
+                @guest
+                    <a href="{{ route('login') }}" class="btn-login">Log in</a>
+                    <a href="{{ route('register') }}" class="btn-signup">Sign up</a>
+                @endguest
+                @auth
+                    <div style="display: flex; align-items: center;">
+                        <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('dashboard') }}" style="display: flex; align-items: center;">
+                            <img src="https://i.pravatar.cc/150?u={{ auth()->user()->username }}" alt="{{ auth()->user()->name }}" style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--gray-200); transition: 0.2s;" onmouseover="this.style.borderColor='#7F56D9'" onmouseout="this.style.borderColor='var(--gray-200)'">
+                        </a>
+                    </div>
+                @endauth
             </div>
         </div>
     </nav>
@@ -60,77 +69,79 @@
         </div>
     </section>
 
-    <footer>
+    <footer class="footer">
         <div class="container">
             <div class="footer-grid">
+                <div class="footer-col" style="grid-column: span 2;">
+                    <div class="logo" style="margin-bottom: 24px; font-size: 20px;">
+                        <i class="fas fa-paint-brush"></i> WhiteCanvas
+                    </div>
+                    <p style="color: var(--gray-500); line-height: 1.6; max-width: 320px;">
+                        The premium blogging platform for creative professionals and industry leaders. Share your stories, build your brand, and inspire the world.
+                    </p>
+                </div>
                 <div class="footer-col">
                     <h4>Product</h4>
                     <ul>
-                        <li><a href="#">Overview</a></li>
+                        <li><a href="{{ route('blogs.index') }}">Overview</a></li>
                         <li><a href="#">Features</a></li>
                         <li><a href="#">Solutions</a></li>
                         <li><a href="#">Tutorials</a></li>
-                        <li><a href="#">Pricing</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Company</h4>
                     <ul>
-                        <li><a href="#">About us</a></li>
+                        <li><a href="{{ route('about') }}">About us</a></li>
                         <li><a href="#">Careers</a></li>
-                        <li><a href="#">Press</a></li>
                         <li><a href="#">News</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="{{ route('contact') }}">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Resources</h4>
                     <ul>
-                        <li><a href="#">Blog</a></li>
+                        <li><a href="{{ route('blogs.index') }}">Blog</a></li>
                         <li><a href="#">Newsletter</a></li>
-                        <li><a href="#">Events</a></li>
-                        <li><a href="#">Help centre</a></li>
+                        <li><a href="{{ route('faq') }}">Help centre</a></li>
                         <li><a href="#">Support</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Use cases</h4>
-                    <ul>
-                        <li><a href="#">Startups</a></li>
-                        <li><a href="#">Enterprise</a></li>
-                        <li><a href="#">Government</a></li>
-                        <li><a href="#">SaaS centre</a></li>
-                        <li><a href="#">Marketplaces</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Social</h4>
                     <ul>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">LinkedIn</a></li>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">GitHub</a></li>
-                        <li><a href="#">Dribbble</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="#">Terms</a></li>
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Cookies</a></li>
-                        <li><a href="#">Licenses</a></li>
-                        <li><a href="#">Settings</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                        <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <div class="logo"><i class="fas fa-paint-brush"></i> WhiteCanvas</div>
-                <p>&copy; {{ date('Y') }} WhiteCanvas. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} WhiteCanvas. Built with passion for the creative community.</p>
+                <div class="footer-legal">
+                    <a href="{{ route('privacy') }}">Privacy</a>
+                    <a href="{{ route('terms') }}">Terms</a>
+                    <a href="#">Cookies</a>
+                </div>
             </div>
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Global form submission handler
+            $('form').on('submit', function() {
+                const $form = $(this);
+                const $submitBtn = $form.find('button[type="submit"], input[type="submit"]');
+                
+                // Add loading class to button
+                $submitBtn.addClass('btn-loading');
+                
+                // Optional: prevent double submission
+                // but usually the btn-loading pointer-events: none handles it
+            });
+        });
+    </script>
     @stack('scripts')
 </body>
 </html>

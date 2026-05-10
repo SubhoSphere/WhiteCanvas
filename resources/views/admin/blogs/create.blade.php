@@ -21,11 +21,16 @@
                 <label style="display: block; font-weight: 500; margin-bottom: 8px;">Category</label>
                 <select name="category" class="form-input" required style="width: 100%;">
                     <option value="">Select Category</option>
-                    <option value="Admit Card">Admit Card</option>
-                    <option value="Result">Result</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Business">Business</option>
+                    <option value="Lifestyle">Lifestyle</option>
+                    <option value="Education">Education</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Science">Science</option>
                     <option value="Design">Design</option>
-                    <option value="Engineering">Engineering</option>
-                    <option value="Product">Product</option>
+                    <option value="News">News</option>
+                    <option value="Health">Health</option>
+                    <option value="Finance">Finance</option>
                 </select>
                 @error('category') <span style="color: red; font-size: 12px;">{{ $message }}</span> @enderror
             </div>

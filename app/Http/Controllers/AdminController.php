@@ -28,7 +28,14 @@ class AdminController extends Controller
 
     public function index()
     {
-        $blogs = Blog::with('author')->latest()->paginate(20);
+        $query = Blog::with('author');
+        
+        // If not admin, only show their own blogs
+        if (!auth()->user()->isAdmin()) {
+            $query->where('author_id', auth()->id());
+        }
+
+        $blogs = $query->latest()->paginate(20);
         return view('admin.blogs.index', compact('blogs'));
     }
 
@@ -65,12 +72,23 @@ class AdminController extends Controller
     public function edit($id)
     {
         $blog = Blog::findOrFail($id);
+
+        // Authorization check
+        if ($blog->author_id !== auth()->id() && !auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         return view('admin.blogs.edit', compact('blog'));
     }
 
     public function update(Request $request, $id)
     {
         $blog = Blog::findOrFail($id);
+
+        // Authorization check
+        if ($blog->author_id !== auth()->id() && !auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
 
         $request->validate([
             'title' => 'required|max:255',
@@ -103,6 +121,11 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $blog = Blog::findOrFail($id);
+
+        // Authorization check
+        if ($blog->author_id !== auth()->id() && !auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
         if ($blog->file_path) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete($blog->file_path);
         }
@@ -113,7 +136,22 @@ class AdminController extends Controller
     public function toggleUserStatus($id)
     {
         $user = User::findOrFail($id);
-        // Logic to ban/unban user would go here
-        return back()->with('success', 'User status updated.');
+        
+        // Prevent banning yourself
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'You cannot ban yourself.');
+        }
+
+        if ($user->role === 'banned') {
+            $user->role = 'user';
+            $message = 'User has been unbanned.';
+        } else {
+            $user->role = 'banned';
+            $message = 'User has been banned.';
+        }
+
+        $user->save();
+
+        return back()->with('success', $message);
     }
 }

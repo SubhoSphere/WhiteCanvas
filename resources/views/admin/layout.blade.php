@@ -7,16 +7,29 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --admin-sidebar: #101828; --admin-sidebar-hover: #1D2939; }
+        :root { 
+            --admin-sidebar: #FFFFFF; 
+            --admin-sidebar-hover: #F9FAFB; 
+            --admin-primary: #7F56D9;
+            --admin-text-main: #344054;
+            --admin-text-active: #7F56D9;
+        }
         .admin-layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
-        .admin-sidebar { background: var(--admin-sidebar); color: #fff; padding: 32px 16px; }
+        .admin-sidebar { 
+            background: var(--admin-sidebar); 
+            color: var(--admin-text-main); 
+            padding: 32px 16px; 
+            border-right: 1px solid #EAECF0;
+        }
         .admin-nav-link { 
             display: flex; align-items: center; gap: 12px; padding: 12px 16px; 
-            color: #D0D5DD; text-decoration: none; border-radius: 8px; margin-bottom: 4px;
+            color: var(--admin-text-main); text-decoration: none; border-radius: 8px; margin-bottom: 4px;
             font-weight: 500;
+            transition: all 0.2s ease;
         }
-        .admin-nav-link:hover { background: var(--admin-sidebar-hover); color: #fff; }
-        .admin-nav-link.active { background: #7F56D9; color: #fff; }
+        .admin-nav-link:hover { background: var(--admin-sidebar-hover); color: #101828; }
+        .admin-nav-link.active { background: #F9F5FF; color: var(--admin-text-active); }
+        .admin-nav-link i { font-size: 18px; width: 24px; text-align: center; }
         .admin-main { background: #F9FAFB; padding: 48px; }
         .stat-card { background: #fff; padding: 24px; border-radius: 12px; border: 1px solid #EAECF0; }
         .stat-card .label { color: #667085; font-size: 14px; margin-bottom: 8px; }
@@ -26,7 +39,7 @@
 <body>
     <div class="admin-layout">
         <aside class="admin-sidebar">
-            <div class="logo" style="color: #fff; margin-bottom: 40px; padding-left: 16px;">
+            <div class="logo" style="color: #101828; margin-bottom: 40px; padding-left: 16px;">
                 <i class="fas fa-paint-brush"></i> WhiteCanvas Admin
             </div>
             <nav>
@@ -56,5 +69,16 @@
             @yield('admin_content')
         </main>
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Global form submission handler
+            $('form').on('submit', function() {
+                const $form = $(this);
+                const $submitBtn = $form.find('button[type="submit"], input[type="submit"]');
+                $submitBtn.addClass('btn-loading');
+            });
+        });
+    </script>
 </body>
 </html>

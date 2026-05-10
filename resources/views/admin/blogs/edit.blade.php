@@ -22,7 +22,7 @@
                 <label style="display: block; font-weight: 500; margin-bottom: 8px;">Category</label>
                 <select name="category" class="form-input" required style="width: 100%;">
                     <option value="">Select Category</option>
-                    @foreach(['Admit Card', 'Result', 'Design', 'Engineering', 'Product'] as $cat)
+                    @foreach(['Technology', 'Business', 'Lifestyle', 'Education', 'Entertainment', 'Science', 'Design', 'News', 'Health', 'Finance'] as $cat)
                         <option value="{{ $cat }}" {{ $blog->category == $cat ? 'selected' : '' }}>{{ $cat }}</option>
                     @endforeach
                 </select>

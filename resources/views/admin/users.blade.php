@@ -45,7 +45,12 @@
                 </td>
                 <td>
                     <button class="action-btn"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn btn-delete"><i class="fas fa-ban"></i></button>
+                    <form action="{{ route('admin.users.toggle', $user->id) }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="action-btn btn-delete" title="{{ $user->role === 'banned' ? 'Unban User' : 'Ban User' }}">
+                            <i class="fas fa-{{ $user->role === 'banned' ? 'undo' : 'ban' }}"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
             @endforeach

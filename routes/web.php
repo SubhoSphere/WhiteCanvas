@@ -44,7 +44,7 @@ Route::get('/dashboard', [BlogController::class, 'dashboard'])->name('dashboard'
 
 Route::get('/user/{username}', [BlogController::class, 'myBlog'])->name('blogs.my');
 
-Route::get('/dashboard/my-posts', [BlogController::class, 'myPosts'])->name('dashboard.posts');
+Route::get('/dashboard/my-blogs', [BlogController::class, 'myPosts'])->name('dashboard.blogs');
 
 Route::get('/faq', function () {
     return view('faq');
@@ -61,22 +61,21 @@ Route::get('/privacy-policy', function () {
 Route::get('/terms-of-service', function () {
     return view('legal.terms');
 })->name('terms');
-
-// Admin Routes
 use App\Http\Controllers\AdminController;
 
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
-    Route::post('/users/{id}/toggle', [AdminController::class, 'toggleUserStatus'])->name('admin.users.toggle');
-    
-    // Admin Blog CRUD
-    Route::resource('blogs', AdminController::class)->names([
-        'index' => 'admin.blogs',
-        'create' => 'admin.blogs.create',
-        'store' => 'admin.blogs.store',
-        'edit' => 'admin.blogs.edit',
-        'update' => 'admin.blogs.update',
-        'destroy' => 'admin.blogs.delete',
-    ]);
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    // Shared Blog Management (Authorization handled in AdminController)
+    Route::get('/blogs', [AdminController::class, 'index'])->name('admin.blogs');
+    Route::get('/blogs/create', [AdminController::class, 'create'])->name('admin.blogs.create');
+    Route::post('/blogs', [AdminController::class, 'store'])->name('admin.blogs.store');
+    Route::get('/blogs/{blog}/edit', [AdminController::class, 'edit'])->name('admin.blogs.edit');
+    Route::put('/blogs/{blog}', [AdminController::class, 'update'])->name('admin.blogs.update');
+    Route::delete('/blogs/{blog}', [AdminController::class, 'destroy'])->name('admin.blogs.delete');
+
+    // Strictly Admin Routes
+    Route::middleware(['admin'])->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+        Route::post('/users/{id}/toggle', [AdminController::class, 'toggleUserStatus'])->name('admin.users.toggle');
+    });
 });
