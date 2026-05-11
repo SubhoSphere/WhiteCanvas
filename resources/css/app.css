@@ -9,3 +9,101 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary: #101828;
+    --primary-light: #475467;
+    --gray-50: #F9FAFB;
+    --gray-100: #F2F4F7;
+    --gray-200: #EAECF0;
+    --gray-300: #D0D5DD;
+    --gray-600: #475467;
+    --gray-700: #344054;
+    --gray-900: #101828;
+    --white: #FFFFFF;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 24px;
+    --shadow-sm: 0px 1px 2px rgba(16, 24, 40, 0.05);
+}
+
+/* Auth Pages & Global Styles from legacy app.css */
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gray-50);
+    padding: 32px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--white);
+    padding: 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0px 4px 6px -2px rgba(16, 24, 40, 0.03), 0px 12px 16px -4px rgba(16, 24, 40, 0.08);
+}
+
+.auth-header { text-align: center; margin-bottom: 32px; }
+.auth-header h2 { font-size: 30px; margin-bottom: 8px; }
+.auth-header p { font-size: 16px; }
+
+.form-group { margin-bottom: 20px; }
+.form-label { display: block; font-weight: 500; font-size: 14px; color: var(--gray-700); margin-bottom: 6px; }
+.form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    transition: 0.2s;
+}
+.form-input:focus {
+    outline: none;
+    border-color: #7F56D9;
+    box-shadow: 0px 0px 0px 4px rgba(127, 86, 217, 0.1);
+}
+
+.auth-btn {
+    width: 100%;
+    background: var(--gray-900);
+    color: var(--white);
+    padding: 12px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+.auth-footer { text-align: center; margin-top: 32px; font-size: 14px; color: var(--gray-600); }
+.auth-footer a { color: #6941C6; font-weight: 600; }
+
+/* Admin Sidebar & Layout Styles */
+.admin-layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+.admin-sidebar { 
+    background: #fff; 
+    color: #344054; 
+    padding: 32px 16px; 
+    border-right: 1px solid #EAECF0;
+}
+.admin-nav-link { 
+    display: flex; align-items: center; gap: 12px; padding: 12px 16px; 
+    color: #344054; text-decoration: none; border-radius: 8px; margin-bottom: 4px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.admin-nav-link:hover { background: #F9FAFB; color: #101828; }
+.admin-nav-link.active { background: #F9F5FF; color: #7F56D9; }
+.admin-main { background: #F9FAFB; padding: 48px; }
+
+/* Dashboard Tables */
+.dash-table { width: 100%; border-collapse: collapse; text-align: left; }
+.dash-table th { padding: 12px 16px; background: #F9FAFB; color: #667085; font-weight: 600; font-size: 12px; text-transform: uppercase; border-bottom: 1px solid #EAECF0; }
+.dash-table td { padding: 16px; border-bottom: 1px solid #EAECF0; font-size: 14px; }
+
+/* Additional legacy styles as needed... */
