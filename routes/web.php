@@ -10,11 +10,11 @@ use App\Http\Controllers\Auth\AuthController;
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:10,1');
 
 Route::get('/verify-email', [VerifyEmailController::class, 'show'])->name('otp.show');
-Route::post('/verify-otp', [VerifyEmailController::class, 'verify'])->name('otp.verify');
-Route::post('/resend-otp', [VerifyEmailController::class, 'resend'])->name('otp.resend');
+Route::post('/verify-otp', [VerifyEmailController::class, 'verify'])->name('otp.verify')->middleware('throttle:10,1');
+Route::post('/resend-otp', [VerifyEmailController::class, 'resend'])->name('otp.resend')->middleware('throttle:3,1');
 
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
@@ -27,7 +27,7 @@ Route::get('/reset-password', function () {
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:10,1');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -40,11 +40,12 @@ Route::get('/about-us', function () {
     return view('about');
 })->name('about');
 
-Route::get('/dashboard', [BlogController::class, 'dashboard'])->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [BlogController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard/my-blogs', [BlogController::class, 'myPosts'])->name('dashboard.blogs');
+});
 
 Route::get('/user/{username}', [BlogController::class, 'myBlog'])->name('blogs.my');
-
-Route::get('/dashboard/my-blogs', [BlogController::class, 'myPosts'])->name('dashboard.blogs');
 
 Route::get('/faq', function () {
     return view('faq');

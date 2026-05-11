@@ -38,8 +38,6 @@ class Blog extends Model
         'short_description',
         'content',
         'file_path',
-        'author_id',
-        'is_published',
     ];
 
     /**

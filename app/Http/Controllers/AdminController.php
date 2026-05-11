@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class AdminController extends Controller
 {
@@ -60,8 +61,9 @@ class AdminController extends Controller
         $blog->is_published = true;
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('blogs', 'public');
-            $blog->file_path = $path;
+            $uploadedFile = $request->file('image')->storeOnCloudinary('blogs');
+            $blog->file_path = $uploadedFile->getSecurePath();
+            $blog->cloud_public_id = $uploadedFile->getPublicId();
         }
 
         $blog->save();
@@ -105,12 +107,14 @@ class AdminController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($blog->file_path) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($blog->file_path);
+            // Delete old image from Cloudinary if exists
+            if ($blog->cloud_public_id) {
+                Cloudinary::destroy($blog->cloud_public_id);
             }
-            $path = $request->file('image')->store('blogs', 'public');
-            $blog->file_path = $path;
+            
+            $uploadedFile = $request->file('image')->storeOnCloudinary('blogs');
+            $blog->file_path = $uploadedFile->getSecurePath();
+            $blog->cloud_public_id = $uploadedFile->getPublicId();
         }
 
         $blog->save();
@@ -126,8 +130,9 @@ class AdminController extends Controller
         if ($blog->author_id !== auth()->id() && !auth()->user()->isAdmin()) {
             abort(403, 'Unauthorized action.');
         }
-        if ($blog->file_path) {
-            \Illuminate\Support\Facades\Storage::disk('public')->delete($blog->file_path);
+        // Delete image from Cloudinary if exists
+        if ($blog->cloud_public_id) {
+            Cloudinary::destroy($blog->cloud_public_id);
         }
         $blog->delete();
         return back()->with('success', 'Blog post deleted successfully.');

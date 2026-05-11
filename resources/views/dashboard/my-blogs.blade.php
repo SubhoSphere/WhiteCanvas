@@ -55,14 +55,17 @@
                             </td>
                             <td style="color: var(--gray-600);">{{ $post->created_at->format('M d, Y') }}</td>
                             <td>
-                                <button class="action-btn" onclick='openEditModal({!! json_encode([
-                                    "id" => $post->id,
-                                    "title" => $post->title,
-                                    "category" => $post->category,
-                                    "short_description" => $post->short_description,
-                                    "content" => $post->content,
-                                    "update_url" => route("admin.blogs.update", $post->id)
-                                ]) !!})'><i class="fas fa-edit"></i></button>
+                                <button class="action-btn edit-post-btn" 
+                                    data-post="{{ json_encode([
+                                        "id" => $post->id,
+                                        "title" => $post->title,
+                                        "category" => $post->category,
+                                        "short_description" => $post->short_description,
+                                        "content" => $post->content,
+                                        "update_url" => route("admin.blogs.update", $post->id)
+                                    ]) }}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
                                 <form action="{{ route('admin.blogs.delete', $post->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
@@ -207,6 +210,13 @@
         document.getElementById('editPostModal').style.display = 'none';
         document.body.style.overflow = 'auto';
     }
+
+    document.querySelectorAll('.edit-post-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const post = JSON.parse(this.getAttribute('data-post'));
+            openEditModal(post);
+        });
+    });
 
     function openEditModal(post) {
         document.getElementById('editPostForm').action = post.update_url;
