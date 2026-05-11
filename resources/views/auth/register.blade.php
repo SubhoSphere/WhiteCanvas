@@ -38,12 +38,7 @@
 
             <button type="submit" class="auth-btn">Get started</button>
             
-            <div class="social-auth">
-                <button type="button" class="btn-social">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">
-                    Sign up with Google
-                </button>
-            </div>
+
         </form>
 
         <div class="auth-footer">
