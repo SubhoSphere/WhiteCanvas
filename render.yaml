@@ -1,17 +1,16 @@
 services:
   - type: web
     name: white-canvas
-    env: php
+    env: docker
     plan: free
-    buildCommand: ./build.sh
-    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    region: singapore # Change if needed
     envVars:
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
         value: false
       - key: APP_URL
-        fromContext: instanceUrl
+        sync: false # You will fill this after deployment
       - key: DB_CONNECTION
         value: mysql
       - key: SESSION_DRIVER
